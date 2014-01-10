@@ -1,0 +1,38 @@
+apply plugin: 'java'
+apply plugin: 'eclipse'
+
+
+ repositories {
+	   mavenLocal()
+	   maven { url 'http://maven.oschina.net/content/groups/public' }
+	  // maven { url 'http://mirrors.ibiblio.org/maven2/' }
+	  // mavenCentral()
+   }
+
+   dependencies {
+		  compile 'com.microsoft.sqlserver:sqljdbc4:4.4.0'
+		  compile 'com.oracle:ojdbc6:11+'
+   }
+   
+/*   sourceSets {
+	   main {
+		   java {
+			   srcDir 'src/java'
+		   }
+		   resources {
+			   srcDir 'src/resources'
+		   }
+	   }
+   }
+	*/
+   sourceSets{
+	   main.java.srcDirs = ['src/java']
+	   main.resources.srcDirs = ['src/resources']
+	   test.java.srcDirs=['test/java']
+	   test.resources.srcDirs = ['test/resources']
+   }
+   
+   task "create-dirs" << {
+	  sourceSets*.java.srcDirs*.each { it.mkdirs() }
+	  sourceSets*.resources.srcDirs*.each { it.mkdirs() }
+   }
